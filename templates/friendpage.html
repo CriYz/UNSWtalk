@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block body_contents %}
+
+<nav class="navbar navbar-default" style="box-shadow: 0 2px 18px 0 rgba(0,0,0,0.2), 0 3px 20px 0 rgba(0,0,0,0.19);">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">UNSWtalk</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li ><a href="/home?zid={{zid}}">Home</a></li>
+      <li><a href="/search?zid={{zid}}">Search</a></li>
+      <li class="active"><a href="/friendlist?zid={{zid}}">Friends</a></li>
+      <li><a href="/selfprofile?zid={{zid}}">Profile</a></li>
+    </ul>
+  </div>
+</nav>
+<center>
+<div class="w3-container">
+<div class="w3-card-4" style="width:30%">
+  <br>
+    {% if friendphoto !=0 %}
+  <img src={{friendphoto}} class="w3-circle" style="height:106px;width:106px" alt="Avatar">
+    {% else %}
+    <img src="{{url_for('static', filename='static/headshot.jpg')}}" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
+    {% endif %}
+  <div class="w3-container w3-center">
+      <hr>
+      {% if 'full_name' in frienddetail %}
+    <p>Name: {{frienddetail['full_name']}}</p>
+      {% endif %}
+      <p>Zid: {{frienddetail['zid']}}</p>
+      {% if 'birthday' in frienddetail %}
+    <p>Birthday: {{frienddetail['birthday']}}</p>
+      {% endif %}
+    {% if 'details' in frienddetail %}
+    <p>Details: {{frienddetail['details']}}</p>
+      {% endif %}
+  </div>
+</div>
+</div>
+</center>
+{% endblock %}

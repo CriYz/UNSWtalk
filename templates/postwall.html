@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block body_contents %}
+<nav class="navbar navbar-default" style="box-shadow: 0 2px 18px 0 rgba(0,0,0,0.2), 0 3px 20px 0 rgba(0,0,0,0.19);">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">UNSWtalk</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/home?zid={{zid}}">Home</a></li>
+      <li><a href="/search?zid={{zid}}">Search</a></li>
+      <li><a href="/friendlist?zid={{zid}}">Friends</a></li>
+      <li><a href="/selfprofile?zid={{zid}}">Profile</a></li>
+    </ul>
+  </div>
+</nav>
+<br>
+<center>
+<div class="w3-container" >
+  <div class="w3-card-4" style="width:70%">
+    <header class="w3-container w3-yellow">
+      <h3 style="text-align:left">New post</h3>
+    </header>
+    <br>
+    <div class="w3-container">
+      <form action="newpost" method="post">
+        <textarea class="w3-input w3-border w3-round" name="newtext" ></textarea>
+        <br>
+    <button class="w3-btn w3-white w3-border w3-round-large" type="submit">Post</button>
+        <input type="hidden" name="zid" value="{{zid}}">
+    </form>
+      <br>
+    </div>
+  </div>
+</div>
+</center>
+      <br>
+{% if len<=5 %}
+{% for post in posts %}
+<center>
+<div class="w3-container" >
+  <div class="w3-card-4" style="width:70%">
+    <header class="w3-container w3-yellow">
+      <h3 style="text-align:left"><a href="/friend_page?zid={{zid}}&friendzid={{post[6]}}">{{post[3]}}</a></h3>
+    </header>
+    {% if post[0] !=0 %}
+    <div class="w3-container">
+      <p style="text-align:left">{{post[0]}}</p>
+      <hr>
+      {% endif %}
+      {% if post[5] !=0 %}
+      <img src={{post[5]}} alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+      {% else %}
+      <img src="{{url_for('static', filename='static/headshot.jpg')}}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+      {% endif %}
+      {% if post[1] !=0 %}
+      <p style="text-align:left">{{post[1]}}</p><br>
+      {% endif %}
+      <br>
+    </div>
+    <button class="w3-button w3-block w3-light-gray"><a href="/comments?zid={{zid}}&path={{post[4]}}&number={{post[7]}}&mainpost={{post}}">View comments</a></button>
+  </div>
+</div>
+<br>
+</center>
+{% endfor %}
+{% else %}
+{% for i in range(pagenumber*5-5,num) %}
+<center>
+<div class="w3-container" >
+  <div class="w3-card-4" style="width:70%">
+    <header class="w3-container w3-yellow">
+      <h3 style="text-align:left"><a href="/friend_page?zid={{zid}}&friendzid={{posts[i][6]}}">{{posts[i][3]}}</a></h3>
+    </header>
+    {% if posts[i][0] !=0 %}
+    <div class="w3-container">
+      <p style="text-align:left">{{posts[i][0]}}</p>
+      <hr>
+      {% endif %}
+      {% if posts[i][5] !=0 %}
+      <img src={{posts[i][5]}} alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+      {% else %}
+      <img src="{{url_for('static', filename='static/headshot.jpg')}}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+      {% endif %}
+      {% if posts[i][1] !=0 %}
+      <p style="text-align:left">{{posts[i][1]}}</p><br>
+      {% endif %}
+      <br>
+    </div>
+    <button class="w3-button w3-block w3-light-gray"><a href="/comments?zid={{zid}}&path={{posts[i][4]}}&number={{posts[i][7]}}&mainpost={{posts[i]}}">View comments</a></button>
+  </div>
+</div>
+<br>
+</center>
+{% endfor %}
+<div class="container">
+      <ul class="pager">
+          {% if pagenumber !=1 %}
+    <li class="previous"><a href="/page?zid={{zid}}&type=homepage&posts={{posts}}&pagenumber={{pagenumber}}&len={{len}}&totalpage={{totalpage}}&ac=minus">Previous</a></li>
+          {% endif %}
+          {% if pagenumber != totalpage %}
+    <li class="next"><a href="/page?zid={{zid}}&type=homepage&posts={{posts}}&pagenumber={{pagenumber}}&len={{len}}&totalpage={{totalpage}}&ac=add">Next</a></li>
+          {% endif %}
+  </ul>
+</div>
+{% endif %}
+{% endblock %}

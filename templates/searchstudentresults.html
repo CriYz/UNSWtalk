@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block body_contents %}
+
+<nav class="navbar navbar-default" style="box-shadow: 0 2px 18px 0 rgba(0,0,0,0.2), 0 3px 20px 0 rgba(0,0,0,0.19);">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">UNSWtalk</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li ><a href="/home?zid={{zid}}">Home</a></li>
+      <li class="active"><a href="/search?zid={{zid}}">Search</a></li>
+      <li ><a href="/friendlist?zid={{zid}}">Friends</a></li>
+      <li><a href="/selfprofile?zid={{zid}}">Profile</a></li>
+    </ul>
+  </div>
+</nav>
+<center>
+    {% if len==0 %}
+
+<h1>There is no result</h1>
+
+{% elif 0< len<=5 %}
+<div class="w3-container">
+  <h2>Search results</h2>
+    <br>
+  <ul class="w3-ul w3-card-4">
+      {% for result in results %}
+    <li class="w3-bar">
+      <form action="addfriend" method="POST">
+<input type="hidden" name="friend" value="{{result[2]}}">
+<input type="hidden" name="zid" value="{{zid}}">
+        <button class="w3-bar-item w3-button w3-white w3-xlarge w3-right" type="submit">＋</button>
+        </form>
+        {% if result[1]!=0 %}
+      <img src={{result[1]}} class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+        {% else %}
+        <img src="{{url_for('static', filename='static/headshot.jpg')}}" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+        {% endif %}
+      <div class="w3-bar-item">
+        <span class="w3-large"><a href="/friend_page?zid={{zid}}&friendzid={{result[2]}}">{{result[0]}}</a></span><br>
+      </div>
+    </li>
+      {% endfor %}
+  </ul>
+</div>
+{% else %}
+<div class="w3-container">
+  <h2>Search results</h2>
+     <br>
+  <ul class="w3-ul w3-card-4">
+      {% for i in range(pagenumber*5-5,num) %}
+    <li class="w3-bar">
+      <form action="addfriend" method="POST">
+<input type="hidden" name="friend" value="{{results[i][2]}}">
+<input type="hidden" name="zid" value="{{zid}}">
+        <button class="w3-bar-item w3-button w3-white w3-xlarge w3-right" type="submit">＋</button>
+        </form>
+        {% if results[i][1]!=0 %}
+      <img src={{results[i][1]}} class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+        {% else %}
+        <img src="{{url_for('static', filename='static/headshot.jpg')}}" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+        {% endif %}
+      <div class="w3-bar-item">
+        <span class="w3-large"><a href="/friend_page?zid={{zid}}&friendzid={{results[i][2]}}">{{results[i][0]}}</a></span><br>
+      </div>
+    </li>
+      {% endfor %}
+  </ul>
+      <ul class="pager">
+          {% if pagenumber !=1 %}
+    <li class="previous" ><a href="/page?zid={{zid}}&type=studentpage&pagenumber={{pagenumber}}&len={{len}}&totalpage={{totalpage}}&ac=minus&results={{results}}">Previous</a></li>
+          {% endif %}
+          {% if pagenumber != totalpage %}
+    <li class="next"><a href="/page?zid={{zid}}&type=studentpage&pagenumber={{pagenumber}}&len={{len}}&totalpage={{totalpage}}&ac=add&results={{results}}">Next</a></li>
+          {% endif %}
+  </ul>
+</div>
+</div>
+
+
+    {% endif %}
+</center>
+
+
+
+{% endblock %}

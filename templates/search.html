@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block body_contents %}
+
+<nav class="navbar navbar-default" style="box-shadow: 0 2px 18px 0 rgba(0,0,0,0.2), 0 3px 20px 0 rgba(0,0,0,0.19);">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">UNSWtalk</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li ><a href="/home?zid={{zid}}">Home</a></li>
+      <li class="active"><a href="/search?zid={{zid}}">Search</a></li>
+      <li ><a href="/friendlist?zid={{zid}}">Friends</a></li>
+      <li><a href="/selfprofile?zid={{zid}}">Profile</a></li>
+    </ul>
+  </div>
+</nav>
+<br>
+<div class="w3-container">
+<center>
+    {{error}}
+    <br>
+  <div class="w3-card-4" style="width:50%">
+    <div class="w3-container w3-yellow">
+      <h2>Search students</h2>
+    </div>
+<br>
+    <form class="w3-container" action="searchresult" method="POST">
+      <p style="text-align:left">
+          <label>Name</label>
+      <input class="w3-input" type="text" name="text"></p>
+<input type="hidden" name="action" value="searchfriends">
+        <input type="hidden" name="zid" value="{{zid}}">
+        <p>
+    <button class="w3-btn w3-white w3-border w3-round-large" type="submit">Search</button>
+    </form>
+  </div>
+    <br><br><br><br>
+    <div class="w3-card-4" style="width:50%">
+    <div class="w3-container w3-yellow">
+      <h2>Search posts</h2>
+    </div>
+<br>
+    <form class="w3-container" action="searchresult" method="POST">
+      <p style="text-align:left">
+          <label>Content</label>
+      <input class="w3-input" type="text" name="text"></p>
+<input type="hidden" name="action" value="searchposts">
+        <input type="hidden" name="zid" value="{{zid}}">
+        <p>
+    <button class="w3-btn w3-white w3-border w3-round-large" type="submit">Search</button>
+    </form>
+  </div>
+    </center>
+</div>
+
+
+
+
+{% endblock %}

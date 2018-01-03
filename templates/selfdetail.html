@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block body_contents %}
+
+<nav class="navbar navbar-default" style="box-shadow: 0 2px 18px 0 rgba(0,0,0,0.2), 0 3px 20px 0 rgba(0,0,0,0.19);">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">UNSWtalk</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li ><a href="/home?zid={{zid}}">Home</a></li>
+      <li><a href="/search?zid={{zid}}">Search</a></li>
+      <li ><a href="/friendlist?zid={{zid}}">Friends</a></li>
+      <li class="active" ><a href="/selfprofile?zid={{zid}}">Profile</a></li>
+    </ul>
+  </div>
+</nav>
+<br>
+<br>
+<center>
+<div class="w3-container">
+<div class="w3-card-4" style="width:30%">
+    <br>
+    {% if selfphoto !=0 %}
+  <img src={{selfphoto}} alt="Norway" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
+    {% else %}
+    <img src="{{url_for('static', filename='static/headshot.jpg')}}" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
+    {% endif %}
+    <hr>
+  <div class="w3-container w3-center">
+
+      {% if 'full_name' in selfdetail %}
+    <p>Name: {{selfdetail['full_name']}}</p>
+      {% endif %}
+      <p>Zid: {{selfdetail['zid']}}</p>
+            {% if 'birthday' in selfdetail %}
+    <p>Birthday: {{selfdetail['birthday']}}</p>
+      {% endif %}
+            {% if 'email' in selfdetail %}
+    <p>Email: {{selfdetail['email']}}</p>
+      {% endif %}
+      {% if 'program' in selfdetail %}
+    <p>Program: {{selfdetail['program']}}</p>
+      {% endif %}
+      {% if 'details' in selfdetail %}
+    <p>Details: {{selfdetail['details']}}</p>
+      {% endif %}
+  </div>
+</div>
+</div>
+
+<br>
+ <div class="w3-container">
+    {{error}}
+    <br>
+  <div class="w3-card-4" style="width:50%">
+    <div class="w3-container w3-yellow">
+      <h2>Edit profile</h2>
+    </div>
+<br>
+    <form class="w3-container" action="editprofile" method="POST">
+      <p style="text-align:left">
+          <label>Name</label>
+      <input class="w3-input" type="text" name="full_name" placeholder="full name"></p>
+        <p style="text-align:left">
+          <label>Program</label>
+      <input class="w3-input" type="text" name="program" placeholder="program"></p>
+        <p style="text-align:left">
+          <label>Birthday</label>
+      <input class="w3-input" type="text" name="birthday" placeholder="yyyy-mm-dd"></p>
+        <p style="text-align:left">
+        <label>Additional descriptions</label>
+      <input class="w3-input" type="text" name="details" placeholder="your interets or other details"></p>
+        <input type="hidden" name="zid" value="{{zid}}">
+        <p>
+    <button class="w3-btn w3-white w3-border w3-round-large" type="submit">Save</button>
+    </form>
+  </div>
+ </div>
+        <br>
+    <div class="container">
+      <ul class="pager">
+    <li class="previous"><a href="/account?zid={{zid}}&ac=suspend">Suspend account</a></li>
+          <li ><a href="/password?zid={{zid}}">Change password</a></li>
+    <li class="next"><a href="/account?zid={{zid}}&ac=delete">Delete account</a></li>
+  </ul>
+</div>
+</center>
+<br>
+<br>
+{% endblock %}
