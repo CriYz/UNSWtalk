@@ -1,6 +1,6 @@
 #!/web/cs2041/bin/python3.6.3
 
-# written by andrewt@cse.unsw.edu.au October 2017
+# written by z5098557@cse.unsw.edu.au October 2017
 # as a starting point for COMP[29]041 assignment 2
 # https://cgi.cse.unsw.edu.au/~cs2041/assignments/UNSWtalk/
 
